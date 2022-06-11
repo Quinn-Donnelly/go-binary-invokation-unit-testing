@@ -49,10 +49,6 @@ func TestShellProcess(t *testing.T) {
 		os.Exit(1)
 	}
 
-	if os.Getenv("GO_TEST_PROCESS") == "2" {
-		os.Exit(1)
-	}
-
 	exitIntCode, err := strconv.Atoi(os.Getenv("GO_TEST_EXIT"))
 	if err != nil {
 		log.Fatalf("TEST ENV NOT SETUP PROPERLY")
@@ -62,7 +58,7 @@ func TestShellProcess(t *testing.T) {
 	os.Exit(exitIntCode)
 }
 
-func newFakeExecCommand(shouldFail bool) func(string, ...string) *exec.Cmd {
+func newFakeExecCommand(shouldFail bool) execContext {
 	var exitCode = 0
 	if shouldFail {
 		exitCode = 1
